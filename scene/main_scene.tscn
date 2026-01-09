@@ -1,0 +1,121 @@
+[gd_scene load_steps=4 format=3 uid="uid://c122apwtfppyv"]
+
+[ext_resource type="Script" uid="uid://dgg38e0lo3opk" path="res://script/Sys.cs" id="1_ry1uq"]
+[ext_resource type="PackedScene" uid="uid://dc2hxda1e8kbt" path="res://prefab/pixel.tscn" id="2_fb1ex"]
+[ext_resource type="PackedScene" uid="uid://2gdrxmfye1qx" path="res://prefab/digit.tscn" id="3_fb1ex"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Sys" type="Node" parent="." node_paths=PackedStringArray("root", "btnReset", "btnRecognize", "digitsContainer")]
+script = ExtResource("1_ry1uq")
+pixelSce = ExtResource("2_fb1ex")
+root = NodePath("../CanvasLayer")
+btnReset = NodePath("../CanvasLayer/Button")
+btnRecognize = NodePath("../CanvasLayer/Button2")
+digitsContainer = NodePath("../CanvasLayer/HBoxContainer")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.99200004
+anchor_right = 0.5
+anchor_bottom = 0.99200004
+offset_left = -361.0
+offset_top = -185.81604
+offset_right = 360.04004
+offset_bottom = 4.18396
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(360, 190)
+
+[node name="digit0" parent="CanvasLayer/HBoxContainer" instance=ExtResource("3_fb1ex")]
+layout_mode = 2
+
+[node name="digit1" parent="CanvasLayer/HBoxContainer" instance=ExtResource("3_fb1ex")]
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/HBoxContainer/digit1" index="1"]
+text = "1"
+
+[node name="digit2" parent="CanvasLayer/HBoxContainer" instance=ExtResource("3_fb1ex")]
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/HBoxContainer/digit2" index="1"]
+text = "2"
+
+[node name="digit3" parent="CanvasLayer/HBoxContainer" instance=ExtResource("3_fb1ex")]
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/HBoxContainer/digit3" index="1"]
+text = "3"
+
+[node name="digit4" parent="CanvasLayer/HBoxContainer" instance=ExtResource("3_fb1ex")]
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/HBoxContainer/digit4" index="1"]
+text = "4"
+
+[node name="digit5" parent="CanvasLayer/HBoxContainer" instance=ExtResource("3_fb1ex")]
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/HBoxContainer/digit5" index="1"]
+text = "5"
+
+[node name="digit6" parent="CanvasLayer/HBoxContainer" instance=ExtResource("3_fb1ex")]
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/HBoxContainer/digit6" index="1"]
+text = "6"
+
+[node name="digit7" parent="CanvasLayer/HBoxContainer" instance=ExtResource("3_fb1ex")]
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/HBoxContainer/digit7" index="1"]
+text = "7"
+
+[node name="digit8" parent="CanvasLayer/HBoxContainer" instance=ExtResource("3_fb1ex")]
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/HBoxContainer/digit8" index="1"]
+text = "8"
+
+[node name="digit9" parent="CanvasLayer/HBoxContainer" instance=ExtResource("3_fb1ex")]
+layout_mode = 2
+
+[node name="Label" parent="CanvasLayer/HBoxContainer/digit9" index="1"]
+text = "9"
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -176.0
+offset_top = 25.0
+offset_right = -35.0
+offset_bottom = 76.0
+grow_horizontal = 0
+text = "重置"
+
+[node name="Button2" type="Button" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -176.0
+offset_top = 108.0
+offset_right = -35.0
+offset_bottom = 159.0
+grow_horizontal = 0
+text = "识别"
+
+[editable path="CanvasLayer/HBoxContainer/digit0"]
+[editable path="CanvasLayer/HBoxContainer/digit1"]
+[editable path="CanvasLayer/HBoxContainer/digit2"]
+[editable path="CanvasLayer/HBoxContainer/digit3"]
+[editable path="CanvasLayer/HBoxContainer/digit4"]
+[editable path="CanvasLayer/HBoxContainer/digit5"]
+[editable path="CanvasLayer/HBoxContainer/digit6"]
+[editable path="CanvasLayer/HBoxContainer/digit7"]
+[editable path="CanvasLayer/HBoxContainer/digit8"]
+[editable path="CanvasLayer/HBoxContainer/digit9"]

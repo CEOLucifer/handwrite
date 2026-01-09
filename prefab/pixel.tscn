@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dc2hxda1e8kbt"]
+
+[ext_resource type="Texture2D" uid="uid://7uraxplakibb" path="res://img/square.png" id="1_ptkfl"]
+
+[node name="Pixel" type="TextureRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_ptkfl")
