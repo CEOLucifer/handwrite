@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://be6t7uqb0rsmd"]
+[gd_scene load_steps=3 format=3 uid="uid://be6t7uqb0rsmd"]
 
 [ext_resource type="Script" uid="uid://b7mi0bm4tfxb1" path="res://script/Test.cs" id="1_fghjm"]
+[ext_resource type="Texture2D" uid="uid://7uraxplakibb" path="res://img/square.png" id="2_bp0px"]
 
-[node name="Test" type="Node2D"]
+[node name="Test" type="Node2D" node_paths=PackedStringArray("tr")]
 script = ExtResource("1_fghjm")
+tr = NodePath("TextureRect")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 494.0
+offset_top = 149.0
+offset_right = 738.0
+offset_bottom = 303.0
+texture = ExtResource("2_bp0px")

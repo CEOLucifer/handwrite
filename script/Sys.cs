@@ -2,12 +2,7 @@ using Godot;
 using Python.Runtime;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Nodes;
 
 public partial class Sys : Node
 {
@@ -25,6 +20,9 @@ public partial class Sys : Node
 
 	[Export]
 	public HBoxContainer digitsContainer;
+
+	[Export]
+	public CheckButton cbRealTime;
 
 	public List<Digit> digits;
 
@@ -54,6 +52,13 @@ public partial class Sys : Node
 
 		btnReset.Pressed += ResetPixels;
 		btnRecognize.Pressed += Recognize;
+		cbRealTime.Toggled += (state) =>
+		{
+			if (state)
+			{
+				Recognize();
+			}
+		};
 
 		digits = digitsContainer
 			.GetChildren()
@@ -106,12 +111,13 @@ public partial class Sys : Node
 						var color = pixels[row][col].SelfModulate;
 						if (type == 0)
 						{
-							color.V = color.V + 1;
+							color.V += 1.0f;
 						}
 						else
 						{
-							color.V = color.V + 0.2f;
+							color.V += 0.2f;
 						}
+						color.V = Math.Clamp(color.V, 0, 1);
 						pixels[row][col].SelfModulate = color;
 					}
 				}
@@ -121,6 +127,12 @@ public partial class Sys : Node
 				Tint(row + 1, col, 1);
 				Tint(row, col - 1, 1);
 				Tint(row, col + 1, 1);
+
+				// 实时模式
+				if (cbRealTime.ButtonPressed)
+				{
+					Recognize();
+				}
 			}
 		}
 	}
@@ -133,6 +145,12 @@ public partial class Sys : Node
 			{
 				pixels[row][col].SelfModulate = new Color(0, 0, 0);
 			}
+		}
+
+		// 更新UI
+		for (int i = 0; i <= 9; ++i)
+		{
+			digits[i].SetValue(0);
 		}
 	}
 
@@ -148,7 +166,7 @@ public partial class Sys : Node
 		{
 			for (int col = 0; col < size; ++col)
 			{
-				data[row][col] = pixels[row][col].SelfModulate.V;
+				data[row][col] = pixels[row][col].SelfModulate.MyLuminance();
 			}
 		}
 

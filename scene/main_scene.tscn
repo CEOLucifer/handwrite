@@ -6,13 +6,14 @@
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Sys" type="Node" parent="." node_paths=PackedStringArray("root", "btnReset", "btnRecognize", "digitsContainer")]
+[node name="Sys" type="Node" parent="." node_paths=PackedStringArray("root", "btnReset", "btnRecognize", "digitsContainer", "cbRealTime")]
 script = ExtResource("1_ry1uq")
 pixelSce = ExtResource("2_fb1ex")
 root = NodePath("../CanvasLayer")
 btnReset = NodePath("../CanvasLayer/Button")
 btnRecognize = NodePath("../CanvasLayer/Button2")
 digitsContainer = NodePath("../CanvasLayer/HBoxContainer")
+cbRealTime = NodePath("../CanvasLayer/CheckButton")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -108,6 +109,17 @@ offset_right = -35.0
 offset_bottom = 159.0
 grow_horizontal = 0
 text = "识别"
+
+[node name="CheckButton" type="CheckButton" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -158.0
+offset_top = 181.0
+offset_right = -38.0
+offset_bottom = 232.0
+grow_horizontal = 0
+text = "实时模式"
 
 [editable path="CanvasLayer/HBoxContainer/digit0"]
 [editable path="CanvasLayer/HBoxContainer/digit1"]
