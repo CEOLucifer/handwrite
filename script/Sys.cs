@@ -1,4 +1,5 @@
 using Godot;
+using Python.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,8 +34,6 @@ public partial class Sys : Node
 
 	private Vector2 pixelSize;
 
-	private System.Net.Http.HttpClient client;
-
 	private string url = "http://localhost:8000";
 
 	private MyPy myPy;
@@ -55,10 +54,6 @@ public partial class Sys : Node
 
 		btnReset.Pressed += ResetPixels;
 		btnRecognize.Pressed += Recognize;
-
-		client = new();
-		// 发一条消息连接，后续初始通讯就不卡顿
-		client.GetAsync($"{url}");
 
 		digits = digitsContainer
 			.GetChildren()
@@ -97,7 +92,7 @@ public partial class Sys : Node
 		if (@event is InputEventMouse evMouse)
 		{
 			Vector2 screenPosition = evMouse.Position;
-			GD.Print("Mouse position", screenPosition);
+			// GD.Print("Mouse position", screenPosition);
 			if (Input.IsMouseButtonPressed(MouseButton.Left))
 			{
 				var row = (int)(screenPosition.Y / pixelSize.Y);
@@ -157,28 +152,23 @@ public partial class Sys : Node
 			}
 		}
 
-		// 发送http
-		var obj = new
+		var res_prob = new List<float>(9);
+
+		// 调用python api
+		dynamic res;
+		using (Py.GIL())
 		{
-			data = data
-		};
-
-		var jsonStr = JsonSerializer.Serialize(obj);
-		var content = new StringContent(jsonStr, Encoding.UTF8, "application/json");
-		var res = client.PostAsync($"{url}/recognize", content)
-						.Result
-						.Content
-						.ReadAsStringAsync()
-						.Result;
-
-		var jnode = JsonNode.Parse(res);
-		float[] p_res = jnode["result"].Deserialize<float[]>();
+			res = myPy.api.recognize(data);
+		}
+		foreach (PyObject each in res)
+		{
+			res_prob.Add(each.As<float>());
+		}
 
 		// 更新UI
-		GD.Print(res);
 		for (int i = 0; i <= 9; ++i)
 		{
-			digits[i].SetValue(p_res[i]);
+			digits[i].SetValue(res_prob[i]);
 		}
 	}
 

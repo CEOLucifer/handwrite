@@ -14,18 +14,18 @@ class MyPy
         var pyRoot = @"D:\project\handwrite\py";
 
         // set environment variables
-        var pathToVirtualEnv = @"C:\Users\28329\miniconda3\envs\handwrite";
+        var envRoot = @"C:\Users\28329\miniconda3\envs\handwrite";
         var path = Environment.GetEnvironmentVariable("PATH").TrimEnd(';');
-        path = string.IsNullOrEmpty(path) ? pathToVirtualEnv : path + ";" + pathToVirtualEnv;
-        Environment.SetEnvironmentVariable("PATH", pathToVirtualEnv);
-        Environment.SetEnvironmentVariable("PYTHONHOME", pathToVirtualEnv);
-        Environment.SetEnvironmentVariable("PYTHONPATH", $"{pathToVirtualEnv}\\Lib\\site-packages;{pathToVirtualEnv}\\Lib");
+        path = string.IsNullOrEmpty(path) ? envRoot : path + ";" + envRoot;
+        Environment.SetEnvironmentVariable("PATH", path);
+        Environment.SetEnvironmentVariable("PYTHONHOME", envRoot);
+        Environment.SetEnvironmentVariable("PYTHONPATH", $"{envRoot}\\Lib;{envRoot}\\Lib\\site-packages");
 
         // C:\Users\28329\miniconda3\envs\handwrite\python.exe
-        Runtime.PythonDLL = @"python310.dll";
+        Runtime.PythonDLL = @"C:\Users\28329\miniconda3\envs\handwrite\python310.dll";
         PythonEngine.Initialize();
-        PythonEngine.PythonHome = pathToVirtualEnv;
-        PythonEngine.PythonPath = Environment.GetEnvironmentVariable("PYTHONPATH", EnvironmentVariableTarget.Process);
+        PythonEngine.PythonHome = envRoot;
+        PythonEngine.PythonPath = Environment.GetEnvironmentVariable("PYTHONPATH");
 
         using (Py.GIL())
         {

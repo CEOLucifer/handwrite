@@ -23,7 +23,7 @@ public partial class Test : Node
 		Environment.SetEnvironmentVariable("PYTHONPATH", $"{pathToVirtualEnv}\\Lib\\site-packages;{pathToVirtualEnv}\\Lib");
 
 		// C:\Users\28329\miniconda3\envs\handwrite\python.exe
-		Runtime.PythonDLL = @"python310.dll";
+		Runtime.PythonDLL = "python310.dll";
 		PythonEngine.Initialize();
 		PythonEngine.PythonHome = pathToVirtualEnv;
 		PythonEngine.PythonPath = Environment.GetEnvironmentVariable("PYTHONPATH", EnvironmentVariableTarget.Process);
