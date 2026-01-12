@@ -7,10 +7,7 @@ using System.Linq;
 public partial class Sys : Node
 {
 	[Export]
-	public PackedScene pixelSce;
-
-	[Export]
-	public Node root;
+	public DrawPanel drawPanel;
 
 	[Export]
 	public Button btnReset;
@@ -26,12 +23,6 @@ public partial class Sys : Node
 
 	public List<Digit> digits;
 
-	private List<List<TextureRect>> pixels;
-
-	private int size = 28;
-
-	private Vector2 pixelSize;
-
 	private string url = "http://localhost:8000";
 
 	private MyPy myPy;
@@ -39,16 +30,14 @@ public partial class Sys : Node
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		pixels = [];
-		for (int row = 0; row < size; ++row)
+		drawPanel.onDraw += () =>
 		{
-			pixels.Add([]);
-			for (int col = 0; col < size; ++col)
+			// 实时模式
+			if (cbRealTime.ButtonPressed)
 			{
-				pixels[row].Add(null);
+				Recognize();
 			}
-		}
-		CallDeferred("createPixels");
+		};
 
 		btnReset.Pressed += ResetPixels;
 		btnRecognize.Pressed += Recognize;
@@ -68,84 +57,10 @@ public partial class Sys : Node
 		myPy = new();
 	}
 
-	private void createPixels()
-	{
-		// 生成绘制网格
-		for (int row = 0; row < size; ++row)
-		{
-			for (int col = 0; col < size; ++col)
-			{
-				var pixel = (TextureRect)pixelSce.Instantiate();
-				pixel.Position = new Vector2(pixel.Size.X * col, pixel.Size.Y * row);
-				root.AddChild(pixel);
-
-				pixel.SelfModulate = Color.Color8(0, 0, 0);
-				pixels[row][col] = pixel;
-				pixelSize = pixel.Size;
-			}
-		}
-
-	}
-
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
-
-	public override void _Input(InputEvent @event)
-	{
-		if (@event is InputEventMouse evMouse)
-		{
-			Vector2 screenPosition = evMouse.Position;
-			// GD.Print("Mouse position", screenPosition);
-			if (Input.IsMouseButtonPressed(MouseButton.Left))
-			{
-				var row = (int)(screenPosition.Y / pixelSize.Y);
-				var col = (int)(screenPosition.X / pixelSize.X);
-
-				// 增色
-				void Tint(int row, int col, int type)
-				{
-					if (0 <= col && col < size && 0 <= row && row < size)
-					{
-						var color = pixels[row][col].SelfModulate;
-						if (type == 0)
-						{
-							color.V += 1.0f;
-						}
-						else
-						{
-							color.V += 0.2f;
-						}
-						color.V = Math.Clamp(color.V, 0, 1);
-						pixels[row][col].SelfModulate = color;
-					}
-				}
-
-				Tint(row, col, 0);
-				Tint(row - 1, col, 1);
-				Tint(row + 1, col, 1);
-				Tint(row, col - 1, 1);
-				Tint(row, col + 1, 1);
-
-				// 实时模式
-				if (cbRealTime.ButtonPressed)
-				{
-					Recognize();
-				}
-			}
-		}
-	}
 
 	public void ResetPixels()
 	{
-		for (int row = 0; row < size; ++row)
-		{
-			for (int col = 0; col < size; ++col)
-			{
-				pixels[row][col].SelfModulate = new Color(0, 0, 0);
-			}
-		}
+		drawPanel.ResetPixels();
 
 		// 更新UI
 		for (int i = 0; i <= 9; ++i)
@@ -154,23 +69,24 @@ public partial class Sys : Node
 		}
 	}
 
+
+	private float[] res_prob = new float[10];
 	public void Recognize()
 	{
 		// 整理数据
-		var data = new float[size][];
-		for (int row = 0; row < size; ++row)
+		int unit = drawPanel.unit;
+		var data = new float[unit][];
+		for (int row = 0; row < unit; ++row)
 		{
-			data[row] = new float[size];
+			data[row] = new float[unit];
 		}
-		for (int row = 0; row < size; ++row)
+		for (int row = 0; row < unit; ++row)
 		{
-			for (int col = 0; col < size; ++col)
+			for (int col = 0; col < unit; ++col)
 			{
-				data[row][col] = pixels[row][col].SelfModulate.MyLuminance();
+				data[row][col] = drawPanel.pixels[row][col].color.MyLuminance();
 			}
 		}
-
-		var res_prob = new List<float>(9);
 
 		// 调用python api
 		dynamic res;
@@ -178,9 +94,9 @@ public partial class Sys : Node
 		{
 			res = myPy.api.recognize(data);
 		}
-		foreach (PyObject each in res)
+		for (int i = 0; i <= 9; ++i)
 		{
-			res_prob.Add(each.As<float>());
+			this.res_prob[i] = res[i];
 		}
 
 		// 更新UI

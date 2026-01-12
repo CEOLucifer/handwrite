@@ -19,7 +19,7 @@ class MyPy
         path = string.IsNullOrEmpty(path) ? envRoot : path + ";" + envRoot;
         Environment.SetEnvironmentVariable("PATH", path);
         Environment.SetEnvironmentVariable("PYTHONHOME", envRoot);
-        Environment.SetEnvironmentVariable("PYTHONPATH", $"{envRoot}\\Lib;{envRoot}\\Lib\\site-packages");
+        Environment.SetEnvironmentVariable("PYTHONPATH", $"{envRoot}\\Lib");
 
         // C:\Users\28329\miniconda3\envs\handwrite\python.exe
         Runtime.PythonDLL = @"C:\Users\28329\miniconda3\envs\handwrite\python310.dll";

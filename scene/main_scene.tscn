@@ -1,21 +1,23 @@
 [gd_scene load_steps=4 format=3 uid="uid://c122apwtfppyv"]
 
 [ext_resource type="Script" uid="uid://dgg38e0lo3opk" path="res://script/Sys.cs" id="1_ry1uq"]
-[ext_resource type="PackedScene" uid="uid://dc2hxda1e8kbt" path="res://prefab/pixel.tscn" id="2_fb1ex"]
+[ext_resource type="Script" uid="uid://bb6pydlx2x8y3" path="res://script/DrawPanel.cs" id="2_fb1ex"]
 [ext_resource type="PackedScene" uid="uid://2gdrxmfye1qx" path="res://prefab/digit.tscn" id="3_fb1ex"]
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Sys" type="Node" parent="." node_paths=PackedStringArray("root", "btnReset", "btnRecognize", "digitsContainer", "cbRealTime")]
+[node name="Sys" type="Node" parent="." node_paths=PackedStringArray("drawPanel", "btnReset", "btnRecognize", "digitsContainer", "cbRealTime")]
 script = ExtResource("1_ry1uq")
-pixelSce = ExtResource("2_fb1ex")
-root = NodePath("../CanvasLayer")
+drawPanel = NodePath("../CanvasLayer/DrawPanel")
 btnReset = NodePath("../CanvasLayer/Button")
 btnRecognize = NodePath("../CanvasLayer/Button2")
 digitsContainer = NodePath("../CanvasLayer/HBoxContainer")
 cbRealTime = NodePath("../CanvasLayer/CheckButton")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="DrawPanel" type="Node2D" parent="CanvasLayer"]
+script = ExtResource("2_fb1ex")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
 anchors_preset = -1
@@ -120,6 +122,31 @@ offset_right = -38.0
 offset_bottom = 232.0
 grow_horizontal = 0
 text = "实时模式"
+
+[node name="HSlider" type="HSlider" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -191.0
+offset_top = 244.0
+offset_right = -11.0
+offset_bottom = 285.0
+grow_horizontal = 0
+min_value = 28.0
+value = 28.0
+rounded = true
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -317.0
+offset_top = 246.0
+offset_right = -207.0
+offset_bottom = 281.0
+grow_horizontal = 0
+text = "分辨率"
+vertical_alignment = 1
 
 [editable path="CanvasLayer/HBoxContainer/digit0"]
 [editable path="CanvasLayer/HBoxContainer/digit1"]
