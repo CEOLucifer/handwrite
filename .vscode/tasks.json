@@ -3,14 +3,10 @@
     "tasks": [
         {
             "label": "build",
-            "command": "D:\\Godot_v4.5.1-stable_mono_win64\\godot.EXE",
+            "command": "dotnet",
             "type": "process",
             "args": [
-                "--build-solutions",
-                "--path",
-                "${workspaceRoot}",
-                "--no-window",
-                "-q"
+                "build"
             ],
             "problemMatcher": "$msCompile"
         }

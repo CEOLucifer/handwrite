@@ -1,12 +1,18 @@
 [gd_scene load_steps=3 format=3 uid="uid://be6t7uqb0rsmd"]
 
-[ext_resource type="Script" uid="uid://b7mi0bm4tfxb1" path="res://script/Test.cs" id="1_fghjm"]
+[ext_resource type="Script" uid="uid://b7mi0bm4tfxb1" path="res://script/Test.cs" id="2_bp0px"]
 [ext_resource type="Script" uid="uid://bb6pydlx2x8y3" path="res://script/DrawPanel.cs" id="3_5u11y"]
 
-[node name="Test" type="Node2D" node_paths=PackedStringArray("tr")]
-script = ExtResource("1_fghjm")
-tr = NodePath("")
+[node name="Test" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="Node2D" type="Node2D" parent="."]
 script = ExtResource("3_5u11y")
 unit = 36
+
+[node name="Node" type="Node" parent="." node_paths=PackedStringArray("tr")]
+script = ExtResource("2_bp0px")
+tr = NodePath("../TextureRect")

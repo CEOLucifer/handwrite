@@ -21,9 +21,22 @@ public partial class Sys : Node
 	[Export]
 	public CheckButton cbRealTime;
 
-	public List<Digit> digits;
+	[Export]
+	public HSlider hSlider_unit_row;
 
-	private string url = "http://localhost:8000";
+	[Export]
+	public HSlider hSlider_unit_col;
+
+	[Export]
+	public HSlider hSlider_pixel_size;
+
+	[Export]
+	public Label label_unit;
+
+	[Export]
+	public Label lab_pixel_size;
+
+	public List<Digit> digits;
 
 	private MyPy myPy;
 
@@ -48,6 +61,33 @@ public partial class Sys : Node
 				Recognize();
 			}
 		};
+
+
+		hSlider_unit_row.ValueChanged += (value) =>
+		{
+			var unit = (int)value;
+			drawPanel.unit = new(unit, drawPanel.unit.Y);
+			label_unit.Text = $"{drawPanel.unit.X} X {drawPanel.unit.Y}";
+		};
+		hSlider_unit_row.SetValueNoSignal(drawPanel.unit.X);
+
+		hSlider_unit_col.ValueChanged += (value) =>
+		{
+			var unit = (int)value;
+			drawPanel.unit = new(drawPanel.unit.X, unit);
+			label_unit.Text = $"{drawPanel.unit.X} X {drawPanel.unit.Y}";
+		};
+		hSlider_unit_col.SetValueNoSignal(drawPanel.unit.X);
+		
+		label_unit.Text = $"{drawPanel.unit.X} X {drawPanel.unit.Y}";
+
+		hSlider_pixel_size.ValueChanged += (value) =>
+		{
+			drawPanel.pixelSize = (int)value;
+			lab_pixel_size.Text = $"像素大小：{drawPanel.pixelSize}";
+		};
+		hSlider_pixel_size.SetValueNoSignal(drawPanel.pixelSize);
+
 
 		digits = digitsContainer
 			.GetChildren()
@@ -74,15 +114,15 @@ public partial class Sys : Node
 	public void Recognize()
 	{
 		// 整理数据
-		int unit = drawPanel.unit;
-		var data = new float[unit][];
-		for (int row = 0; row < unit; ++row)
+		var unit = drawPanel.unit;
+		var data = new float[unit.X][];
+		for (int row = 0; row < unit.X; ++row)
 		{
-			data[row] = new float[unit];
+			data[row] = new float[unit.Y];
 		}
-		for (int row = 0; row < unit; ++row)
+		for (int row = 0; row < unit.X; ++row)
 		{
-			for (int col = 0; col < unit; ++col)
+			for (int col = 0; col < unit.Y; ++col)
 			{
 				data[row][col] = drawPanel.pixels[row][col].color.MyLuminance();
 			}

@@ -1,6 +1,9 @@
 using Godot;
 using System;
 
+/// <summary>
+/// 控件：显示是某个数字的概率
+/// </summary>
 public partial class Digit : Control
 {
 	[Export]

@@ -20,9 +20,12 @@ public partial class DrawPanel : Node2D
 {
 	public List<List<Pixel>> pixels = new();
 
-	public float size = 1000;
+	private Vector2I _unit = new(28, 28);
 
-	private int _unit = 28;
+	private float _pixelSize = 20;
+
+	[Export(PropertyHint.Range, "0,1")]
+	public float tintSpeed = 1.0f;
 
 	[Export]
 	public Vector2 orig;
@@ -30,27 +33,29 @@ public partial class DrawPanel : Node2D
 	public Action onDraw;
 
 	[Export(PropertyHint.Range, "1,100")]
-	public int unit
+	public Vector2I unit
 	{
 		get => _unit;
 		set
 		{
-			_unit = Math.Clamp(value, 1, int.MaxValue);
+			var rowNew = Math.Clamp(value.X, 1, int.MaxValue);
+			var colNew = Math.Clamp(value.Y, 1, int.MaxValue);
+			_unit = new(rowNew, colNew);
 			// 预分配好空间
-			pixels.EnsureCapacity(unit);
+			pixels.EnsureCapacity(unit.X);
 			// 补充不够的行
 			var oldCnt = pixels.Count;
-			for (var i = 0; i < unit - oldCnt; ++i)
+			for (var i = 0; i < unit.X - oldCnt; ++i)
 			{
 				pixels.Add(new());
 			}
-			for (var row = 0; row < unit; ++row)
+			for (var row = 0; row < unit.X; ++row)
 			{
 				// 每行预留空间
-				pixels[row].EnsureCapacity(unit);
+				pixels[row].EnsureCapacity(unit.Y);
 				// 补充像素
 				var oldRowCnt = pixels[row].Count;
-				for (var i = 0; i < unit - oldRowCnt; ++i)
+				for (var i = 0; i < unit.Y - oldRowCnt; ++i)
 				{
 					pixels[row].Add(new());
 				}
@@ -59,7 +64,12 @@ public partial class DrawPanel : Node2D
 		}
 	}
 
-	public float pixelSize => size / unit;
+	[Export(PropertyHint.Range, "1,50")]
+	public float pixelSize
+	{
+		get => _pixelSize;
+		set => _pixelSize = value;
+	}
 
 	public override void _Ready()
 	{
@@ -78,9 +88,9 @@ public partial class DrawPanel : Node2D
 	public override void _Draw()
 	{
 		var rectSize = new Vector2(pixelSize, pixelSize);
-		for (int row = 0; row < unit; ++row)
+		for (int row = 0; row < unit.X; ++row)
 		{
-			for (int col = 0; col < unit; ++col)
+			for (int col = 0; col < unit.Y; ++col)
 			{
 				DrawRect(
 					new(orig + new Vector2(col, row) * pixelSize,
@@ -92,7 +102,7 @@ public partial class DrawPanel : Node2D
 
 	}
 
-	public override void _Input(InputEvent @event)
+	public override void _UnhandledInput(InputEvent @event)
 	{
 		if (@event is InputEventMouse evMouse)
 		{
@@ -106,7 +116,7 @@ public partial class DrawPanel : Node2D
 				// 增色
 				void Tint(int row, int col, int type)
 				{
-					if (0 <= col && col < unit && 0 <= row && row < unit)
+					if (0 <= col && col < unit.Y && 0 <= row && row < unit.X)
 					{
 						var color = pixels[row][col].color;
 						if (type == 0)
@@ -138,9 +148,9 @@ public partial class DrawPanel : Node2D
 
 	public void ResetPixels()
 	{
-		for (int row = 0; row < unit; ++row)
+		for (int row = 0; row < pixels.Count; ++row)
 		{
-			for (int col = 0; col < unit; ++col)
+			for (int col = 0; col < pixels[0].Count; ++col)
 			{
 				pixels[row][col] = new Pixel();
 			}
