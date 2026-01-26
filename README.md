@@ -1,3 +1,7 @@
+# 项目环境
+
+- 使用Godot Engine .NET 4.5.1
+
 # config
 
 config/config.json负责配置关联的相应python环境
