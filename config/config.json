@@ -1,0 +1,6 @@
+{
+    // 根据你的实际环境进行配置，修改以下内容
+    "pyRoot": "D:/project/handwrite/handwrite_python", // handwrite_python项目目录
+    "envRoot": "C:/Users/28329/miniconda3/envs/handwrite", // conda handwrite环境目录
+    "PythonDLL": "C:/Users/28329/miniconda3/envs/handwrite/python310.dll" // conda python dll文件
+}
