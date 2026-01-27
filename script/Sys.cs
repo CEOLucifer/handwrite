@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class Sys : Node
+[GlobalClass]
+public partial class Sys : Node2D
 {
 	[Export]
 	public DrawPanel drawPanel;
@@ -40,6 +41,8 @@ public partial class Sys : Node
 
 	private MyPy myPy;
 
+	public dynamic res;
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -52,7 +55,11 @@ public partial class Sys : Node
 			}
 		};
 
-		btnReset.Pressed += ResetPixels;
+		btnReset.Pressed += () =>
+		{
+			ResetPixels();
+			res = null;
+		};
 		btnRecognize.Pressed += Recognize;
 		cbRealTime.Toggled += (state) =>
 		{
@@ -78,7 +85,7 @@ public partial class Sys : Node
 			label_unit.Text = $"{drawPanel.unit.X} X {drawPanel.unit.Y}";
 		};
 		hSlider_unit_col.SetValueNoSignal(drawPanel.unit.X);
-		
+
 		label_unit.Text = $"{drawPanel.unit.X} X {drawPanel.unit.Y}";
 
 		hSlider_pixel_size.ValueChanged += (value) =>
@@ -96,6 +103,43 @@ public partial class Sys : Node
 
 		myPy = new();
 	}
+
+	public override void _Process(double delta)
+	{
+		QueueRedraw();
+	}
+
+
+	public override void _Draw()
+	{
+		// 绘制数字识别边框
+		if (res != null)
+		{
+			int count = 0;
+			try
+			{
+				count = res.__len__();
+			}
+			catch
+			{
+				// fallback: try as array
+				if (res is Array arr)
+					count = arr.Length;
+			}
+			for (int i = 0; i < count; ++i)
+			{
+				DrawRect(
+					new(new Vector2((float)res[i].x, (float)res[i].y) * drawPanel.pixelSize,
+						 new Vector2((float)res[i].w * drawPanel.pixelSize,
+									  (float)res[i].w * drawPanel.pixelSize)),
+					Colors.Red,
+					filled: false,
+					width: 10
+				);
+			}
+		}
+	}
+
 
 
 	public void ResetPixels()
@@ -129,21 +173,22 @@ public partial class Sys : Node
 		}
 
 		// 调用python api
-		dynamic res;
 		using (Py.GIL())
 		{
+			// 保存于res变量
 			res = myPy.api.recognize(data);
 		}
-		for (int i = 0; i <= 9; ++i)
-		{
-			this.res_prob[i] = res[i];
-		}
+		GD.Print(res.__len__());
+		// for (int i = 0; i <= 9; ++i)
+		// {
+		// 	this.res_prob[i] = res[i];
+		// }
 
 		// 更新UI
-		for (int i = 0; i <= 9; ++i)
-		{
-			digits[i].SetValue(res_prob[i]);
-		}
+		// for (int i = 0; i <= 9; ++i)
+		// {
+		// 	digits[i].SetValue(res_prob[i]);
+		// }
 	}
 
 }

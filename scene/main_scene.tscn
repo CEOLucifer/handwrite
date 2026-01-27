@@ -6,24 +6,24 @@
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Sys" type="Node" parent="." node_paths=PackedStringArray("drawPanel", "btnReset", "btnRecognize", "digitsContainer", "cbRealTime", "hSlider_unit_row", "hSlider_unit_col", "hSlider_pixel_size", "label_unit", "lab_pixel_size")]
-script = ExtResource("1_ry1uq")
-drawPanel = NodePath("../CanvasLayer/draw_panel")
-btnReset = NodePath("../CanvasLayer/btn_reset")
-btnRecognize = NodePath("../CanvasLayer/btn_recognize")
-digitsContainer = NodePath("../CanvasLayer/HBoxContainer")
-cbRealTime = NodePath("../CanvasLayer/CheckButton")
-hSlider_unit_row = NodePath("../CanvasLayer/HSlider_unit_row")
-hSlider_unit_col = NodePath("../CanvasLayer/HSlider_unit_col")
-hSlider_pixel_size = NodePath("../CanvasLayer/HSlider_pixel_size")
-label_unit = NodePath("../CanvasLayer/lab_unit")
-lab_pixel_size = NodePath("../CanvasLayer/lab_pixel_size")
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="draw_panel" type="Node2D" parent="CanvasLayer"]
 script = ExtResource("2_fb1ex")
 pixelSize = 26.088
+
+[node name="Sys" type="Node2D" parent="CanvasLayer" node_paths=PackedStringArray("drawPanel", "btnReset", "btnRecognize", "digitsContainer", "cbRealTime", "hSlider_unit_row", "hSlider_unit_col", "hSlider_pixel_size", "label_unit", "lab_pixel_size")]
+script = ExtResource("1_ry1uq")
+drawPanel = NodePath("../draw_panel")
+btnReset = NodePath("../btn_reset")
+btnRecognize = NodePath("../btn_recognize")
+digitsContainer = NodePath("../HBoxContainer")
+cbRealTime = NodePath("../CheckButton")
+hSlider_unit_row = NodePath("../HSlider_unit_row")
+hSlider_unit_col = NodePath("../HSlider_unit_col")
+hSlider_pixel_size = NodePath("../HSlider_pixel_size")
+label_unit = NodePath("../lab_unit")
+lab_pixel_size = NodePath("../lab_pixel_size")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
 anchors_preset = -1
