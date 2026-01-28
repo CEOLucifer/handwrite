@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [GlobalClass]
-public partial class Sys : Node2D
+public partial class Sys : Node
 {
 	[Export]
 	public DrawPanel drawPanel;
@@ -42,6 +42,7 @@ public partial class Sys : Node2D
 	private MyPy myPy;
 
 	public dynamic res;
+	
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -106,39 +107,10 @@ public partial class Sys : Node2D
 
 	public override void _Process(double delta)
 	{
-		QueueRedraw();
+
 	}
 
 
-	public override void _Draw()
-	{
-		// 绘制数字识别边框
-		if (res != null)
-		{
-			int count = 0;
-			try
-			{
-				count = res.__len__();
-			}
-			catch
-			{
-				// fallback: try as array
-				if (res is Array arr)
-					count = arr.Length;
-			}
-			for (int i = 0; i < count; ++i)
-			{
-				DrawRect(
-					new(new Vector2((float)res[i].x, (float)res[i].y) * drawPanel.pixelSize,
-						 new Vector2((float)res[i].w * drawPanel.pixelSize,
-									  (float)res[i].w * drawPanel.pixelSize)),
-					Colors.Red,
-					filled: false,
-					width: 10
-				);
-			}
-		}
-	}
 
 
 
@@ -154,7 +126,6 @@ public partial class Sys : Node2D
 	}
 
 
-	private float[] res_prob = new float[10];
 	public void Recognize()
 	{
 		// 整理数据
