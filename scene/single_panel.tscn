@@ -1,0 +1,172 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhulnqqse3fyb"]
+
+[ext_resource type="Script" uid="uid://bb6pydlx2x8y3" path="res://script/DrawPanel.cs" id="1_n30bn"]
+[ext_resource type="Script" uid="uid://mv0bwyr37q5k" path="res://script/SinglePanel.cs" id="1_nrlm7"]
+[ext_resource type="PackedScene" uid="uid://2gdrxmfye1qx" path="res://prefab/digit.tscn" id="4_3wiad"]
+
+[node name="single_panel" type="Control" node_paths=PackedStringArray("drawPanel", "btnReset", "btnRecognize", "digitsContainer", "cbRealTime", "hSlider_pixel_size", "lab_pixel_size")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_nrlm7")
+drawPanel = NodePath("draw_panel")
+btnReset = NodePath("btn_reset")
+btnRecognize = NodePath("btn_recognize")
+digitsContainer = NodePath("HBoxContainer")
+cbRealTime = NodePath("CheckButton")
+hSlider_pixel_size = NodePath("HSlider_pixel_size")
+lab_pixel_size = NodePath("lab_pixel_size")
+
+[node name="draw_panel" type="Node2D" parent="."]
+script = ExtResource("1_n30bn")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.99200004
+anchor_right = 0.5
+anchor_bottom = 0.99200004
+offset_left = -361.0
+offset_top = -185.81604
+offset_right = 360.04004
+offset_bottom = 4.18396
+grow_horizontal = 2
+grow_vertical = 0
+pivot_offset = Vector2(360, 190)
+
+[node name="digit0" parent="HBoxContainer" instance=ExtResource("4_3wiad")]
+layout_mode = 2
+
+[node name="digit1" parent="HBoxContainer" instance=ExtResource("4_3wiad")]
+layout_mode = 2
+
+[node name="Label" parent="HBoxContainer/digit1" index="1"]
+text = "1"
+
+[node name="digit2" parent="HBoxContainer" instance=ExtResource("4_3wiad")]
+layout_mode = 2
+
+[node name="Label" parent="HBoxContainer/digit2" index="1"]
+text = "2"
+
+[node name="digit3" parent="HBoxContainer" instance=ExtResource("4_3wiad")]
+layout_mode = 2
+
+[node name="Label" parent="HBoxContainer/digit3" index="1"]
+text = "3"
+
+[node name="digit4" parent="HBoxContainer" instance=ExtResource("4_3wiad")]
+layout_mode = 2
+
+[node name="Label" parent="HBoxContainer/digit4" index="1"]
+text = "4"
+
+[node name="digit5" parent="HBoxContainer" instance=ExtResource("4_3wiad")]
+layout_mode = 2
+
+[node name="Label" parent="HBoxContainer/digit5" index="1"]
+text = "5"
+
+[node name="digit6" parent="HBoxContainer" instance=ExtResource("4_3wiad")]
+layout_mode = 2
+
+[node name="Label" parent="HBoxContainer/digit6" index="1"]
+text = "6"
+
+[node name="digit7" parent="HBoxContainer" instance=ExtResource("4_3wiad")]
+layout_mode = 2
+
+[node name="Label" parent="HBoxContainer/digit7" index="1"]
+text = "7"
+
+[node name="digit8" parent="HBoxContainer" instance=ExtResource("4_3wiad")]
+layout_mode = 2
+
+[node name="Label" parent="HBoxContainer/digit8" index="1"]
+text = "8"
+
+[node name="digit9" parent="HBoxContainer" instance=ExtResource("4_3wiad")]
+layout_mode = 2
+
+[node name="Label" parent="HBoxContainer/digit9" index="1"]
+text = "9"
+
+[node name="btn_reset" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -176.0
+offset_top = 25.0
+offset_right = -35.0
+offset_bottom = 76.0
+grow_horizontal = 0
+text = "重置"
+
+[node name="btn_recognize" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -176.0
+offset_top = 108.0
+offset_right = -35.0
+offset_bottom = 159.0
+grow_horizontal = 0
+text = "识别"
+
+[node name="CheckButton" type="CheckButton" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -158.0
+offset_top = 181.0
+offset_right = -38.0
+offset_bottom = 232.0
+grow_horizontal = 0
+text = "实时模式"
+
+[node name="HSlider_pixel_size" type="HSlider" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -191.0
+offset_top = 351.0
+offset_right = -11.0
+offset_bottom = 392.0
+grow_horizontal = 0
+min_value = 1.0
+max_value = 50.0
+value = 20.0
+rounded = true
+
+[node name="lab_pixel_size" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -317.0
+offset_top = 354.0
+offset_right = -207.0
+offset_bottom = 389.0
+grow_horizontal = 0
+text = "像素大小：20"
+vertical_alignment = 1
+
+[editable path="HBoxContainer/digit0"]
+[editable path="HBoxContainer/digit1"]
+[editable path="HBoxContainer/digit2"]
+[editable path="HBoxContainer/digit3"]
+[editable path="HBoxContainer/digit4"]
+[editable path="HBoxContainer/digit5"]
+[editable path="HBoxContainer/digit6"]
+[editable path="HBoxContainer/digit7"]
+[editable path="HBoxContainer/digit8"]
+[editable path="HBoxContainer/digit9"]

@@ -12,7 +12,7 @@ class Config
     public string PythonDLL { get; set; }
 }
 
-class MyPy
+public class MyPy
 {
     public dynamic sys;
     public dynamic api;

@@ -2,12 +2,28 @@
 
 [ext_resource type="Script" uid="uid://b7mi0bm4tfxb1" path="res://script/Test.cs" id="2_bp0px"]
 
-[node name="Test" type="Node2D"]
+[node name="q" type="Panel"]
+anchors_preset = -1
+anchor_right = 0.097
+offset_right = -111.744
+scale = Vector2(2.04, 2.04)
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 42.0
+offset_right = 445.0
+offset_bottom = 215.0
 
 [node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Node" type="Node" parent="." node_paths=PackedStringArray("tr")]
 script = ExtResource("2_bp0px")
 tr = NodePath("../TextureRect")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CanvasGroup" type="CanvasGroup" parent="CanvasLayer"]

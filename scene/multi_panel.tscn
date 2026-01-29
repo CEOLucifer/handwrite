@@ -1,0 +1,151 @@
+[gd_scene load_steps=5 format=3 uid="uid://tpa4qmc1wrmj"]
+
+[ext_resource type="Script" uid="uid://bb6pydlx2x8y3" path="res://script/DrawPanel.cs" id="1_g42ou"]
+[ext_resource type="Script" uid="uid://dmxw6muywbvc8" path="res://script/MultiPanel.cs" id="1_gv02l"]
+[ext_resource type="Script" uid="uid://cmsy1ecbkjuif" path="res://script/BorderDrawer.cs" id="2_gv02l"]
+[ext_resource type="FontFile" uid="uid://bxs76plgc3pnb" path="res://font/simfang.ttf" id="3_bcrk5"]
+
+[node name="multi_panel" type="Control" node_paths=PackedStringArray("drawPanel", "btnReset", "btnRecognize", "cbRealTime", "hSlider_unit_row", "hSlider_unit_col", "hSlider_pixel_size", "label_unit", "lab_pixel_size", "borderDrawer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_gv02l")
+drawPanel = NodePath("draw_panel")
+btnReset = NodePath("btn_reset")
+btnRecognize = NodePath("btn_recognize")
+cbRealTime = NodePath("CheckButton")
+hSlider_unit_row = NodePath("HSlider_unit_row")
+hSlider_unit_col = NodePath("HSlider_unit_col")
+hSlider_pixel_size = NodePath("HSlider_pixel_size")
+label_unit = NodePath("lab_unit")
+lab_pixel_size = NodePath("lab_pixel_size")
+borderDrawer = NodePath("border_drawer")
+
+[node name="draw_panel" type="Node2D" parent="."]
+script = ExtResource("1_g42ou")
+
+[node name="border_drawer" type="Node2D" parent="." node_paths=PackedStringArray("drawPanel")]
+script = ExtResource("2_gv02l")
+drawPanel = NodePath("../draw_panel")
+font = ExtResource("3_bcrk5")
+
+[node name="btn_reset" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -176.0
+offset_top = 25.0
+offset_right = -35.0
+offset_bottom = 76.0
+grow_horizontal = 0
+text = "重置"
+
+[node name="btn_recognize" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -176.0
+offset_top = 108.0
+offset_right = -35.0
+offset_bottom = 159.0
+grow_horizontal = 0
+text = "识别"
+
+[node name="CheckButton" type="CheckButton" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -158.0
+offset_top = 181.0
+offset_right = -38.0
+offset_bottom = 232.0
+grow_horizontal = 0
+text = "实时模式"
+
+[node name="HSlider_unit_row" type="HSlider" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -191.0
+offset_top = 244.0
+offset_right = -11.0
+offset_bottom = 285.0
+grow_horizontal = 0
+min_value = 28.0
+value = 28.0
+rounded = true
+
+[node name="HSlider_unit_col" type="HSlider" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -191.0
+offset_top = 298.0
+offset_right = -11.0
+offset_bottom = 339.0
+grow_horizontal = 0
+min_value = 28.0
+value = 28.0
+rounded = true
+
+[node name="HSlider_pixel_size" type="HSlider" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -191.0
+offset_top = 351.0
+offset_right = -11.0
+offset_bottom = 392.0
+grow_horizontal = 0
+min_value = 1.0
+max_value = 50.0
+value = 20.0
+rounded = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -317.0
+offset_top = 246.0
+offset_right = -207.0
+offset_bottom = 281.0
+grow_horizontal = 0
+text = "分辨率"
+vertical_alignment = 1
+
+[node name="lab_unit" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -314.0
+offset_top = 277.0
+offset_right = -175.0
+offset_bottom = 331.0
+grow_horizontal = 0
+text = "28 X 28"
+
+[node name="lab_pixel_size" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -317.0
+offset_top = 354.0
+offset_right = -207.0
+offset_bottom = 389.0
+grow_horizontal = 0
+text = "像素大小：20"
+vertical_alignment = 1

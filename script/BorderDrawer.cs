@@ -6,8 +6,7 @@ using System;
 /// </summary>
 public partial class BorderDrawer : Node2D
 {
-	[Export]
-	public Sys sys;
+	public MultiPanel multiPanel;
 
 	[Export]
 	public DrawPanel drawPanel;
@@ -28,7 +27,7 @@ public partial class BorderDrawer : Node2D
 
 	public override void _Draw()
 	{
-		var res = sys.res;
+		var res = multiPanel.res;
 
 		// 绘制数字识别边框
 		if (res != null)
